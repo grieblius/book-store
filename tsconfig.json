@@ -19,9 +19,12 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "downlevelIteration": true,
+    "resolveJsonModule": true,
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@store/*": ["./src/store/*"]
+      "@store/*": ["./src/store/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@src/*": ["./src/*"]
     },
     "importHelpers": false
   },

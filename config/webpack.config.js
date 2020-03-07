@@ -53,6 +53,8 @@ module.exports = (env, argv) => {
       alias: {
         '@components': `${srcPath}/components`,
         '@store': `${srcPath}/store`,
+        '@utils': `${srcPath}/utils`,
+        '@src': `${srcPath}`,
       },
     },
     context: srcPath,
