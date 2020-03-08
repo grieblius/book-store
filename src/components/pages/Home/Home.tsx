@@ -8,23 +8,34 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 
-import PageTemplate from '@components/core/PageTemplate';
 import useBooksState from '@store/books/hooks';
 import useOrdersState from '@store/orders/hooks';
+import usePage from '@src/hooks/usePage';
 
 const Home: React.FC = () => {
   const [{ books }, { isBooksListLoading, booksListError }, { listRequest }] = useBooksState();
   const [, { isOrdersItemAddLoading, ordersItemAddError }, { itemAddRequest }] = useOrdersState();
-
-  React.useEffect(() => {
-    listRequest();
-  }, []);
-
+  // const appContext = React.useContext(AppContext);
   const isLoading = isBooksListLoading || isOrdersItemAddLoading;
   const error = booksListError || ordersItemAddError;
 
+  usePage('Book list', isLoading, error);
+
+  React.useEffect(() => {
+    listRequest();
+    // appContext.setPageTitle('Book list');
+  }, []);
+
+  // React.useEffect(() => {
+  //   appContext.setIsLoading(isLoading);
+  // }, [isLoading]);
+
+  // React.useEffect(() => {
+  //   appContext.setError(error);
+  // }, [error]);
+
   return (
-    <PageTemplate title="Book list" isLoading={isLoading} error={error}>
+    <>
       {!isBooksListLoading && books?.map((book) => (
         <div key={book.id}>
           <Card>
@@ -67,7 +78,7 @@ const Home: React.FC = () => {
           </Card>
         </div>
       ))}
-    </PageTemplate>
+    </>
   );
 };
 

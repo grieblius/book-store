@@ -5,15 +5,12 @@ import {
 import { delay, generateId } from '@utils/helpers';
 import { API_DELAY } from '@src/constants';
 import { BookStoreModel } from '@src/model';
-import { BooksModel } from './model';
 import { DATA_KEY } from './constants';
 
 export const getList = async (): Promise<BookStoreModel.Book[]> => {
   const books = getItemFromStorage<BookStoreModel.Book[]>(DATA_KEY);
 
   await delay(API_DELAY);
-
-  console.log(books);
 
   if (!books) {
     throw new Error('Book data failure');
@@ -22,7 +19,7 @@ export const getList = async (): Promise<BookStoreModel.Book[]> => {
   return books;
 };
 
-export const getItem = async (id: string): Promise<BooksModel.ItemResponse> => {
+export const getItem = async (id: string): Promise<BookStoreModel.Book> => {
   const books = await getList();
   const book = books.find(((item) => item.id === id));
 
@@ -30,7 +27,7 @@ export const getItem = async (id: string): Promise<BooksModel.ItemResponse> => {
     throw new Error('Book not found');
   }
 
-  return { book };
+  return book;
 };
 
 export const createItem = async (

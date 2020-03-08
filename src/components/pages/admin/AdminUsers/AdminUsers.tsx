@@ -7,44 +7,45 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-
-import useOrdersState from '@store/orders/hooks';
+import useUsersState from '@store/users/hooks';
 import usePage from '@src/hooks/usePage';
 
-const Orders: React.FC = () => {
+const AdminUsers: React.FC = () => {
   const [
-    { userOrders },
-    { isOrdersListLoading, ordersListError },
-    { userListRequest },
-  ] = useOrdersState();
+    { users },
+    { isUsersListLoading, usersListError },
+    { listRequest },
+  ] = useUsersState();
 
   React.useEffect(() => {
-    userListRequest();
+    listRequest();
   }, []);
 
-  const isLoading = isOrdersListLoading;
-  const error = ordersListError;
+  const isLoading = isUsersListLoading;
+  const error = usersListError;
 
-  usePage('My orders', isLoading, error);
+  usePage('Users Management', isLoading, error);
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="simple table">
+      <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Order No.</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">User Id</TableCell>
+            <TableCell>User Name</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Surname</TableCell>
+            <TableCell>Role</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {userOrders?.map((order) => (
-            <TableRow key={order.id}>
+          {users?.map((user) => (
+            <TableRow key={user.id}>
               <TableCell component="th" scope="row">
-                {order.id}
+                {user.username}
               </TableCell>
-              <TableCell align="right">{order.status}</TableCell>
-              <TableCell align="right">{order.userId}</TableCell>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.surname}</TableCell>
+              <TableCell>{user.role}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -53,4 +54,4 @@ const Orders: React.FC = () => {
   );
 };
 
-export default Orders;
+export default AdminUsers;

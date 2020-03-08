@@ -14,9 +14,15 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import Alert from '@material-ui/lab/Alert';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
-
+import People from '@material-ui/icons/People';
+import MenuBook from '@material-ui/icons/MenuBook';
 
 import Loader from '@components/common/Loader';
 import useUsersState from '@store/users/hooks';
@@ -41,6 +47,7 @@ const PageTemplate: React.FC<Props> = ({
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement>(null);
   const [orderCount, setOrderCount] = React.useState<number>(0);
+  const [isDrawerShown, setIsDrawerShown] = React.useState(false);
 
   React.useEffect(() => {
     if (userOrders.length) {
@@ -68,27 +75,29 @@ const PageTemplate: React.FC<Props> = ({
     history.push('/logout');
     handleMenuClose();
   };
-
   const handleOrders = () => {
     history.push('/orders');
     handleMenuClose();
   };
+  const handleAdminUsers = () => history.push('/admin/users');
+  const handleAdminBooks = () => history.push('/admin/books');
+  const handleAdminOrders = () => history.push('/admin/orders');
+
+  const handleToggleDrawer = (
+    event: React.KeyboardEvent | React.MouseEvent,
+  ) => {
+    if (
+      event.type === 'keydown'
+      && ((event as React.KeyboardEvent).key === 'Tab'
+        || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+
+    setIsDrawerShown(!isDrawerShown);
+  };
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleOrders}>My orders</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
-    </Menu>
-  );
 
   return (
     <>
@@ -98,7 +107,7 @@ const PageTemplate: React.FC<Props> = ({
             <Grid item>
               <Box display="flex" alignItems="center">
                 {activeUser?.role === 'admin' && (
-                <IconButton edge="start" color="inherit" aria-label="menu">
+                <IconButton onClick={handleToggleDrawer} edge="start" color="inherit" aria-label="menu">
                   <MenuIcon />
                 </IconButton>
                 )}
@@ -142,8 +151,44 @@ const PageTemplate: React.FC<Props> = ({
           </Grid>
         </Toolbar>
       </AppBar>
-      {renderMenu}
-      <Container maxWidth="sm">
+
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        id={menuId}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleOrders}>My orders</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
+
+      <Drawer open={isDrawerShown} onClose={handleToggleDrawer}>
+        <Box
+          width={300}
+          onClick={handleToggleDrawer}
+          onKeyDown={handleToggleDrawer}
+        >
+          <List>
+            <ListItem onClick={handleAdminUsers} button>
+              <ListItemIcon><People /></ListItemIcon>
+              <ListItemText primary="Users" />
+            </ListItem>
+            <ListItem onClick={handleAdminBooks} button>
+              <ListItemIcon><MenuBook /></ListItemIcon>
+              <ListItemText primary="Books" />
+            </ListItem>
+            <ListItem onClick={handleAdminOrders} button>
+              <ListItemIcon><ShoppingCart /></ListItemIcon>
+              <ListItemText primary="Orders" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+
+      <Container maxWidth="md">
         {error && (
         <Box my={4}>
           <Alert severity="error">{error}</Alert>

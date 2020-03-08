@@ -29,12 +29,6 @@ const config = {
   production: {
     webpack: {
       entry: './index.tsx',
-      output: {
-        path: `${rootPath}/dist`,
-        publicPath: '/',
-        filename: 'js/bundle.[hash].min.js',
-        chunkFilename: 'js/page.[name].min.js',
-      },
       devtool: 'source-map',
       stats: {
         entrypoints: false,
@@ -50,6 +44,12 @@ module.exports = (env, argv) => {
 
   return merge(envConfig.webpack, {
     mode,
+    output: {
+      path: `${rootPath}/dist`,
+      publicPath: '/',
+      filename: 'js/bundle.[hash].min.js',
+      chunkFilename: 'js/page.[name].min.js',
+    },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       alias: {

@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-import PageTemplate from '@components/core/PageTemplate';
 import useUsersState from '@store/users/hooks';
+import usePage from '@src/hooks/usePage';
 
 const SignIn: React.FC = () => {
   const [
@@ -29,6 +29,8 @@ const SignIn: React.FC = () => {
     }
   }, [usersLoginError]);
 
+  usePage('Sign in', isUsersLoginLoading, usersLoginError);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     loginRequest({ username, password });
@@ -42,40 +44,38 @@ const SignIn: React.FC = () => {
   ) => setPassword(event.target.value);
 
   return (
-    <PageTemplate title="Sign In" isLoading={isUsersLoginLoading} error={usersLoginError}>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          label="User Name"
-          name="username"
-          autoFocus
-          onChange={handleUsernameChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          onChange={handlePasswordChange}
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-        >
-          Sign In
-        </Button>
-      </form>
-    </PageTemplate>
+    <form onSubmit={handleSubmit}>
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        label="User Name"
+        name="username"
+        autoFocus
+        onChange={handleUsernameChange}
+      />
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        name="password"
+        label="Password"
+        type="password"
+        id="password"
+        autoComplete="current-password"
+        onChange={handlePasswordChange}
+      />
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+      >
+        Sign In
+      </Button>
+    </form>
   );
 };
 export default SignIn;
