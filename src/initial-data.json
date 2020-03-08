@@ -1,5 +1,31 @@
 {
-    "users": [],
-    "books": [],
+    "users": [
+        {
+            "id": "34235345344",
+            "name": "Keanu",
+            "surname": "Reeves",
+            "username": "kearee",
+            "password": "UGFzc3dvcmQx",
+            "role": "client"
+        },
+        {
+            "id": "430593840539",
+            "name": "Monica",
+            "surname": "Belucci",
+            "username": "monbel",
+            "password": "UGFzc3dvcmQx",
+            "role": "admin"
+        }
+    ],
+    "books": [
+        {
+            "id": "845093845039",
+            "title": "The Ultimate Hitchhiker’s Guide To The Galaxy",
+            "author": "Douglas Adams",
+            "published_date": "2012-01-12T00:00:00+00:00",
+            "book_cover": "https://placekeanu.com/200/150",
+            "quantity": 3
+        }
+    ],
     "orders": []
 }

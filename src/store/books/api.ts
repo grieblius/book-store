@@ -13,6 +13,8 @@ export const getList = async (): Promise<BookStoreModel.Book[]> => {
 
   await delay(API_DELAY);
 
+  console.log(books);
+
   if (!books) {
     throw new Error('Book data failure');
   }

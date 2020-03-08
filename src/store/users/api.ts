@@ -4,10 +4,9 @@ import {
   saveTokenToStorage,
   removeTokenFromStorage,
 } from '@utils/storage';
-import { delay, getUserFromToken } from '@utils/helpers';
+import { delay, getUserFromToken, errorWithMessage } from '@utils/helpers';
 import { API_DELAY } from '@src/constants';
 import { BookStoreModel } from '@src/model';
-import { UsersModel } from './model';
 import { DATA_KEY } from './constants';
 
 export const getList = async (): Promise<BookStoreModel.User[]> => {
@@ -21,32 +20,33 @@ export const getList = async (): Promise<BookStoreModel.User[]> => {
   await delay(API_DELAY);
 
   if (!users) {
-    throw new Error('User data failure');
+    throw errorWithMessage('User data failure');
   }
 
   return users;
 };
 
-export const loginByToken = async (): Promise<UsersModel.LoginResponse> => {
+export const loginByToken = async (): Promise<BookStoreModel.User> => {
   const users = await getList();
   const user = getUserFromToken(users);
 
   if (!user) {
-    throw new Error('No acive user session');
+    return null;
   }
 
   const { password: removePassword, ...activeUser } = user;
 
-  return { activeUser };
+  return activeUser;
 };
 
 export const login = async (
   username: string,
   password: string,
-): Promise<UsersModel.LoginResponse> => {
+): Promise<BookStoreModel.User> => {
   const users = await getList();
+  const encodedPassword = btoa(password);
 
-  const user = users.find(((usr) => usr.username === username && usr.password === password));
+  const user = users.find(((usr) => usr.username === username && usr.password === encodedPassword));
 
   if (!user) {
     throw new Error('Login failed. Bad credentials or user does not exist');
@@ -57,7 +57,7 @@ export const login = async (
 
   saveTokenToStorage(token);
 
-  return { activeUser };
+  return activeUser;
 };
 
 export const logout = async () => {

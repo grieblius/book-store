@@ -4,14 +4,16 @@ import { hot } from 'react-hot-loader';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import useUsersState from '@store/users/hooks';
-// import AuthRoute from './core/AuthRoute';
+import AuthRoute from './core/AuthRoute';
 
 import SignIn from './pages/SignIn';
 import SignOut from './pages/SignOut';
 import Home from './pages/Home';
+import Orders from './pages/Orders';
+import Admin from './pages/Admin';
 
 const App: React.FC = () => {
-  const [{ activeUser }, {}, { initRequest }] = useUsersState();
+  const [{ activeUser }, , { initRequest }] = useUsersState();
 
   React.useEffect(() => {
     if (!activeUser) {
@@ -30,15 +32,12 @@ const App: React.FC = () => {
           <Route path="/logout">
             <SignOut />
           </Route>
-          {/* <AuthRoute path="/orders" exact>
+          <AuthRoute path="/orders" exact>
             <Orders />
           </AuthRoute>
-          <AuthRoute path="/admin" exact>
+          <AuthRoute path="/admin" userRole="admin" exact>
             <Admin />
           </AuthRoute>
-          <Route path="/book/:id">
-            <Book />
-          </Route> */}
           <Route path="/">
             <Home />
           </Route>
@@ -47,6 +46,7 @@ const App: React.FC = () => {
     </>
   );
 };
+
 declare let module: object;
 
 export default hot(module)(App);

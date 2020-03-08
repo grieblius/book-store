@@ -40,6 +40,10 @@ const restoreBookQuantities = (items: BookStoreModel.OrderItem[]) => {
 const filterUserOrders = (orders: BookStoreModel.Order[]) => {
   const userId = getUserIdFromToken();
 
+  if (!userId) {
+    throw new Error('Only logged in users can make purchases');
+  }
+
   return orders.filter((order) => order.userId === userId);
 };
 

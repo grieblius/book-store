@@ -1,30 +1,36 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
 import { ActionModel } from '@utils/redux';
+import { logError } from '@utils/helpers';
+import { BookStoreModel } from '@src/model';
 import { Types } from './constants';
 import { UsersModel } from './model';
 
 import * as actions from './actions';
 import * as api from './api';
 
-export function* init() {
+export function* initLogin() {
   try {
-    const response: UsersModel.LoginResponse = yield call(api.loginByToken);
+    const activeUser: BookStoreModel.User = yield call(api.loginByToken);
 
-    yield put(actions.initReceive(response));
+    yield put(actions.initReceive({ activeUser }));
   } catch (error) {
-    yield put(actions.initError(error.message));
+    logError(error);
+
+    yield put(actions.initError({ error: error.message }));
   }
 }
 
 export function* login(action: ActionModel<UsersModel.LoginRequest>) {
   try {
     const { username, password } = action.payload;
-    const response:UsersModel.LoginResponse = yield call(api.login, username, password);
+    const activeUser:BookStoreModel.User = yield call(api.login, username, password);
 
-    yield put(actions.loginReceive(response));
+    yield put(actions.loginReceive({ activeUser }));
   } catch (error) {
-    yield put(actions.loginError(error.message));
+    logError(error);
+
+    yield put(actions.loginError({ error: error?.message }));
   }
 }
 
@@ -33,22 +39,26 @@ export function* logout() {
     yield call(api.logout);
     yield put(actions.logoutReceive());
   } catch (error) {
-    yield put(actions.logoutError(error.message));
+    logError(error);
+
+    yield put(actions.logoutError({ error: error?.message }));
   }
 }
 
 export function* getList() {
   try {
-    const response:UsersModel.ListResponse = yield call(api.getList);
+    const users:BookStoreModel.User[] = yield call(api.getList);
 
-    yield put(actions.listReceive(response));
+    yield put(actions.listReceive({ users }));
   } catch (error) {
-    yield put(actions.listError(error.message));
+    logError(error);
+
+    yield put(actions.listError({ error: error?.message }));
   }
 }
 
 export default [
-  takeLatest(Types.USERS.INIT.REQUEST, init),
+  takeLatest(Types.USERS.INIT.REQUEST, initLogin),
   takeLatest(Types.USERS.LOGIN.REQUEST, login),
   takeLatest(Types.USERS.LOGOUT.REQUEST, logout),
   takeLatest(Types.USERS.LIST.REQUEST, getList),

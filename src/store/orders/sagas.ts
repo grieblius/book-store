@@ -1,6 +1,9 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
 import { ActionModel } from '@utils/redux';
+import { logError } from '@utils/helpers';
+import { BookStoreModel } from '@src/model';
+import * as bookActions from '@store/books/actions';
 import { Types } from './constants';
 import { OrdersModel } from './model';
 
@@ -13,7 +16,9 @@ export function* getList() {
 
     yield put(actions.listReceive(response));
   } catch (error) {
-    yield put(actions.listError(error.message));
+    logError(error);
+
+    yield put(actions.listError({ error: error.message }));
   }
 }
 
@@ -26,17 +31,21 @@ export function* updateStatus(action: ActionModel<OrdersModel.UpdateStatusReques
     yield put(actions.updateStatusReceive());
     yield put(actions.listRequest());
   } catch (error) {
-    yield put(actions.updateStatusError(error.message));
+    logError(error);
+
+    yield put(actions.updateStatusError({ error: error.message }));
   }
 }
 
 export function* userGetList() {
   try {
-    const response:OrdersModel.ListResponse = yield call(api.userGetList);
+    const orders:BookStoreModel.Order[] = yield call(api.userGetList);
 
-    yield put(actions.userListReceive(response));
+    yield put(actions.userListReceive({ orders }));
   } catch (error) {
-    yield put(actions.userListError(error.message));
+    logError(error);
+
+    yield put(actions.userListError({ error: error.message }));
   }
 }
 
@@ -49,7 +58,9 @@ export function* userUpdateStatus(action: ActionModel<OrdersModel.UserUpdateStat
     yield put(actions.userUpdateStatusReceive());
     yield put(actions.userListRequest());
   } catch (error) {
-    yield put(actions.userUpdateStatusError(error.message));
+    logError(error);
+
+    yield put(actions.userUpdateStatusError({ error: error.message }));
   }
 }
 
@@ -59,10 +70,13 @@ export function* addItem(action: ActionModel<OrdersModel.ItemAddRequest>) {
 
     yield call(api.addItem, book, quantity);
 
-    yield put(actions.itemRemoveReceive());
+    yield put(actions.itemAddReceive());
     yield put(actions.userListRequest());
+    yield put(bookActions.listRequest());
   } catch (error) {
-    yield put(actions.itemRemoveError(error.message));
+    logError(error);
+
+    yield put(actions.itemAddError({ error: error.message }));
   }
 }
 
@@ -75,7 +89,9 @@ export function* removeItem(action: ActionModel<OrdersModel.ItemRemoveRequest>) 
     yield put(actions.itemRemoveReceive());
     yield put(actions.userListRequest());
   } catch (error) {
-    yield put(actions.itemRemoveError(error.message));
+    logError(error);
+
+    yield put(actions.itemRemoveError({ error: error.message }));
   }
 }
 
@@ -88,7 +104,9 @@ export function* updateItemQuantity(action: ActionModel<OrdersModel.ItemUpdateQu
     yield put(actions.itemUpdateQuantityReceive());
     yield put(actions.userListRequest());
   } catch (error) {
-    yield put(actions.itemUpdateQuantityError(error.message));
+    logError(error);
+
+    yield put(actions.itemUpdateQuantityError({ error: error.message }));
   }
 }
 

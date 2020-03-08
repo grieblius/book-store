@@ -3,6 +3,7 @@ export const Types = {
     INIT: {
       REQUEST: 'USERS.INIT.REQUEST',
       RECEIVE: 'USERS.INIT.RECEIVE',
+      ERROR: 'USERS.INIT.ERROR',
     },
     LOGIN: {
       REQUEST: 'USERS.LOGIN.REQUEST',

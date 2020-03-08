@@ -1,9 +1,7 @@
 import { STORAGE_DATA_KEY, STORAGE_TOKEN_KEY } from '@src/constants';
-import * as initialData from '@src/initial-data.json';
+import initialData from '@src/initial-data.json';
 
 export const loadInitialData = () => {
-  console.log(initialData);
-
   localStorage.setItem(
     STORAGE_DATA_KEY, JSON.stringify(initialData),
   );
@@ -12,6 +10,10 @@ export const loadInitialData = () => {
 
 export const getItemFromStorage = <T>(key: string = null): T => {
   const db = JSON.parse(localStorage.getItem(STORAGE_DATA_KEY));
+
+  if (!db) {
+    return null;
+  }
 
   return key ? db[key] : db;
 };

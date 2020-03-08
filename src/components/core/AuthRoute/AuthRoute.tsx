@@ -4,19 +4,26 @@ import {
 } from 'react-router';
 
 import useUsersState from '@store/users/hooks';
+import { BookStoreModel } from '@src/model';
 
-const AuthRoute: React.FC<RouteProps> = ({
+type Props = {
+  userRole?: BookStoreModel.UserRole;
+} & RouteProps;
+
+const AuthRoute: React.FC<Props> = ({
   children,
   path,
   exact,
+  userRole,
 
-}: RouteProps) => {
-  const [usersState] = useUsersState();
+}: Props) => {
+  const [{ activeUser }] = useUsersState();
   const location = useLocation();
+  const isAuth = activeUser && (!userRole || userRole === activeUser.role);
 
   return (
     <Route path={path} exact={exact}>
-      {usersState.activeUser ? (
+      {isAuth ? (
         children
       ) : (
         <Redirect

@@ -12,10 +12,16 @@ export namespace BooksModel {
   }
 
   export interface RequestReducer {
-    isUsersLoginLoading: boolean;
-    isUsersListLoading: boolean;
-    usersLoginError: string;
-    usersListError: string;
+    isBooksListLoading: boolean;
+    isBooksItemLoading: boolean;
+    isBooksCreateLoading: boolean;
+    isBooksEditLoading: boolean;
+    isBooksDeleteLoading: boolean;
+    booksListError: string;
+    booksItemError: string;
+    booksCreateError: string;
+    booksEditError: string;
+    booksDeleteError: string;
   }
 
   export interface ListResponse {

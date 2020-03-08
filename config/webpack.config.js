@@ -20,6 +20,7 @@ const config = {
       ],
       devServer: {
         hot: true,
+        historyApiFallback: true,
       },
       devtool: 'cheap-module-eval-source-map',
       plugins: [new webpack.HotModuleReplacementPlugin()],
