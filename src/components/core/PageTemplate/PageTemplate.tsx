@@ -1,33 +1,26 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import {
-  Backdrop,
-  CircularProgress,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-  Container,
-  Box,
-  Badge,
-  Menu,
-  MenuItem,
-} from '@material-ui/core';
-import Alert from '@material-ui/lab/Alert';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Badge from '@material-ui/core/Badge';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import Alert from '@material-ui/lab/Alert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 
+
+import Loader from '@components/common/Loader';
 import useUsersState from '@store/users/hooks';
 import useOrdersState from '@store/orders/hooks';
-
-const useStyles = makeStyles(() => createStyles({
-  toolbarButtons: {
-    marginLeft: 'auto',
-  },
-}));
 
 type Props = {
   title: string;
@@ -44,7 +37,6 @@ const PageTemplate: React.FC<Props> = ({
 }: Props) => {
   const [{ activeUser }] = useUsersState();
   const [{ userOrders }] = useOrdersState();
-  const classes = useStyles();
   const history = useHistory();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement>(null);
@@ -102,39 +94,52 @@ const PageTemplate: React.FC<Props> = ({
     <>
       <AppBar position="static">
         <Toolbar>
-          {activeUser?.role === 'admin' && (
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-          )}
-          <Typography variant="h6">
-            Book Store
-          </Typography>
-          <div className={classes.toolbarButtons}>
-            {!activeUser
-              ? (<Button color="inherit" onClick={handleLogin}>Login</Button>)
-              : (
-                <>
-                  <IconButton onClick={handleOrders} color="inherit">
-                    <Badge badgeContent={orderCount} color="secondary">
-                      <ShoppingCart />
-                    </Badge>
-                  </IconButton>
-                  <IconButton
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                    {' '}
-                    {activeUser?.name}
-                  </IconButton>
-                </>
-              )}
-          </div>
+          <Grid container justify="space-between" alignItems="center">
+            <Grid item>
+              <Box display="flex" alignItems="center">
+                {activeUser?.role === 'admin' && (
+                <IconButton edge="start" color="inherit" aria-label="menu">
+                  <MenuIcon />
+                </IconButton>
+                )}
+                <Typography variant="h6">
+                  <Link color="inherit" underline="none" component={RouterLink} to="/">
+                    Book Store
+                  </Link>
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item>
+              {!activeUser
+                ? (<Button color="inherit" onClick={handleLogin}>Login</Button>)
+                : (
+                  <Box display="flex" alignItems="center">
+                    <IconButton onClick={handleOrders} color="inherit">
+                      <Badge badgeContent={orderCount} color="secondary">
+                        <ShoppingCart />
+                      </Badge>
+                    </IconButton>
+                    <IconButton
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenuOpen}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                    <Box ml={1}>
+                      <Typography variant="caption" noWrap>
+                        {activeUser.name}
+                        {' '}
+                        {activeUser.surname}
+                      </Typography>
+                    </Box>
+                  </Box>
+                )}
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       {renderMenu}
@@ -151,9 +156,7 @@ const PageTemplate: React.FC<Props> = ({
           {children}
         </Box>
       </Container>
-      <Backdrop open={isLoading}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+      <Loader open={isLoading} />
     </>
   );
 };

@@ -1,13 +1,12 @@
 import * as React from 'react';
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-  CardActions,
-  Button,
-  Grid,
-} from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
 
 import PageTemplate from '@components/core/PageTemplate';
 import useBooksState from '@store/books/hooks';
@@ -26,7 +25,7 @@ const Home: React.FC = () => {
 
   return (
     <PageTemplate title="Book list" isLoading={isLoading} error={error}>
-      {books?.map((book) => (
+      {!isBooksListLoading && books?.map((book) => (
         <div key={book.id}>
           <Card>
             <CardActionArea>

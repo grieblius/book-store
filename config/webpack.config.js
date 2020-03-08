@@ -30,9 +30,10 @@ const config = {
     webpack: {
       entry: './index.tsx',
       output: {
-        filename: 'js/bundle.[hash].min.js',
         path: `${rootPath}/dist`,
         publicPath: '/',
+        filename: 'js/bundle.[hash].min.js',
+        chunkFilename: 'js/page.[name].min.js',
       },
       devtool: 'source-map',
       stats: {
