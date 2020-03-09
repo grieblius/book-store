@@ -85,9 +85,7 @@ const List: React.FC = () => {
                 <TableCell>{book.author}</TableCell>
                 <TableCell align="right">{new Date(book.published_date).toLocaleDateString()}</TableCell>
                 <TableCell>
-                  <Box width="25%">
-                    <img src={book.book_cover} alt={book.title} height="100" />
-                  </Box>
+                  <img src={book.book_cover} alt={book.title} width="100" />
                 </TableCell>
                 <TableCell align="right">{book.quantity}</TableCell>
               </TableRow>

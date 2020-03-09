@@ -19,7 +19,7 @@ export namespace OrdersModel {
     isOrdersUserUpdateStatusLoading: boolean;
     isOrdersItemAddLoading: boolean;
     isOrdersItemRemoveLoading: boolean;
-    isOrdersItemUpdateQuanityLoading: boolean;
+    isOrdersItemUpdateQuantityLoading: boolean;
     ordersListError: string;
     ordersUpdateStatusError: string;
     ordersUserListError: string;

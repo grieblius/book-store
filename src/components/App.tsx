@@ -15,6 +15,7 @@ const SignOut = React.lazy(() => import('@components/pages/SignOut'));
 const Orders = React.lazy(() => import('@components/pages/Orders'));
 const AdminUsers = React.lazy(() => import('@components/pages/admin/AdminUsers'));
 const AdminBooks = React.lazy(() => import('@components/pages/admin/AdminBooks'));
+const AdminOrders = React.lazy(() => import('@components/pages/admin/AdminOrders'));
 
 type AppContextModel = PageTemplateModel & {
   setPageTemplateProps: (props: PageTemplateModel) => void;
@@ -82,6 +83,11 @@ const App: React.FC = () => {
             <AuthRoute path="/admin/books" userRole="admin">
               <React.Suspense fallback={<Loader open />}>
                 <AdminBooks />
+              </React.Suspense>
+            </AuthRoute>
+            <AuthRoute path="/admin/orders" userRole="admin">
+              <React.Suspense fallback={<Loader open />}>
+                <AdminOrders />
               </React.Suspense>
             </AuthRoute>
             <Route path="/">

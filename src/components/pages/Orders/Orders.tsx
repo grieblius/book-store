@@ -1,55 +1,90 @@
 import * as React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
+import Typography from '@material-ui/core/Typography';
 
 import useOrdersState from '@store/orders/hooks';
 import usePageTemplate from '@src/hooks/usePageTemplate';
+import { BookStoreModel } from '@src/model';
+import Order from '@components/common/Order/Order';
 
 const Orders: React.FC = () => {
   const [
-    { userOrders },
-    { isOrdersListLoading, ordersListError },
-    { userListRequest },
+    { userOrders, activeOrder },
+    {
+      isOrdersUserListLoading,
+      isOrdersUserUpdateStatusLoading,
+      isOrdersItemUpdateQuantityLoading,
+      isOrdersItemRemoveLoading,
+      ordersUserListError,
+      ordersUserUpdateStatusError,
+      ordersItemUpdateQuantityError,
+      ordersItemRemoveError,
+    },
+    {
+      userListRequest,
+      userUpdateStatusRequest,
+      itemRemoveRequest,
+      itemUpdateQuantityRequest,
+    },
   ] = useOrdersState();
 
   React.useEffect(() => {
     userListRequest();
   }, []);
 
-  const isLoading = isOrdersListLoading;
-  const error = ordersListError;
+  const isLoading = isOrdersUserListLoading
+    || isOrdersUserUpdateStatusLoading
+    || isOrdersItemUpdateQuantityLoading
+    || isOrdersItemRemoveLoading;
+  const error = ordersUserListError
+    || ordersUserUpdateStatusError
+    || ordersItemUpdateQuantityError
+    || ordersItemRemoveError;
 
   usePageTemplate({ title: 'My orders', isLoading, error });
 
+  const handleStatusChange = (
+    status: BookStoreModel.OrderStatus,
+  ) => userUpdateStatusRequest({ status });
+
+  const handleItemRemove = (
+    itemId: string,
+  ) => itemRemoveRequest({ itemId });
+
+  const handleItemQuantityChange = (
+    itemId: string,
+    quantity: number,
+  ) => itemUpdateQuantityRequest({ itemId, quantity });
+
+
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Order No.</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">User Id</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {userOrders?.map((order) => (
-            <TableRow key={order.id}>
-              <TableCell component="th" scope="row">
-                {order.id}
-              </TableCell>
-              <TableCell align="right">{order.status}</TableCell>
-              <TableCell align="right">{order.userId}</TableCell>
-            </TableRow>
+    <>
+      {activeOrder && (
+        <>
+          <Typography variant="h5" component="h2" gutterBottom>
+            New Order
+          </Typography>
+          <Order
+            order={activeOrder}
+            onItemQuantityChange={handleItemQuantityChange}
+            onItemRemove={handleItemRemove}
+            onStatusChange={handleStatusChange}
+          />
+        </>
+      )}
+      {Boolean(userOrders?.length) && (
+        <>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Order History
+          </Typography>
+          {userOrders.map((order) => (
+            <Order
+              key={order.id}
+              order={order}
+            />
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </>
+      )}
+    </>
   );
 };
 

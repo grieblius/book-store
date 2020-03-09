@@ -3,7 +3,7 @@ import { ActionModel, ErrorActionModel } from '@utils/redux';
 const requestReducer = (state = {}, action: ActionModel<ErrorActionModel>) => {
   const { type, payload } = action;
 
-  const matches = /(.*)(\.)(REQUEST|RECEIVE|ERROR)/.exec(type);
+  const matches = /(.*)(_|\.)(REQUEST|RECEIVE|ERROR)/.exec(type);
 
   if (!matches) {
     return state;
@@ -12,7 +12,7 @@ const requestReducer = (state = {}, action: ActionModel<ErrorActionModel>) => {
   const [, requestName, , requestState] = matches;
 
   const capitalizedActionType = requestName
-    .split('.')
+    .split(/_|\./)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join('');
 

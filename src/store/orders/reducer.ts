@@ -18,15 +18,18 @@ export default (
     case Types.ORDERS.LIST.RECEIVE: {
       const { orders } = action.payload;
 
+      console.log(orders);
+
       return {
         ...state,
         orders,
       };
     }
     case Types.ORDERS.USER.LIST.RECEIVE: {
-      const { orders: userOrders } = action.payload;
+      const { orders } = action.payload;
 
-      const activeOrder = userOrders.find((order) => order.status === 'new');
+      const activeOrder = orders.find((order) => order.status === 'new');
+      const userOrders = orders.filter((order) => order.status !== 'new');
 
       return {
         ...state,

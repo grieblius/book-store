@@ -16,7 +16,7 @@ const getAllOrders = async (): Promise<BookStoreModel.Order[]> => {
     throw new Error('Order data failure');
   }
 
-  return orders.slice().reverse();
+  return orders;
 };
 
 const updateBookQuantity = (id: string, delta: number) => {
@@ -37,6 +37,7 @@ const updateBookQuantity = (id: string, delta: number) => {
 const restoreBookQuantities = (items: BookStoreModel.OrderItem[]) => {
   items.forEach(({ book, quantity }) => updateBookQuantity(book.id, quantity));
 };
+
 const filterUserOrders = (orders: BookStoreModel.Order[]) => {
   const userId = getUserIdFromToken();
 
@@ -71,7 +72,10 @@ const deleteOrder = (id: string, orders: BookStoreModel.Order[]) => {
 export const getList = async (): Promise<BookStoreModel.Order[]> => {
   const orders = await getAllOrders();
 
-  return orders.filter((order) => order.status === 'new' || order.status === 'paid');
+  return orders
+    .filter((order) => order.status === 'new' || order.status === 'paid')
+    .slice()
+    .reverse();
 };
 
 export const updateStatus = async (id: string, status: BookStoreModel.OrderStatus) => {
@@ -90,7 +94,7 @@ export const userGetList = async (): Promise<BookStoreModel.Order[]> => {
   const orders = await getAllOrders();
   const userOrders = filterUserOrders(orders);
 
-  return userOrders;
+  return userOrders.slice().reverse();
 };
 
 export const userUpdateStatus = async (status: BookStoreModel.OrderStatus) => {
@@ -128,7 +132,7 @@ export const addItem = async (book: BookStoreModel.Book, quantity: number) => {
   const itemIndex = items.findIndex(((item) => item.book.id === book.id));
 
   if (itemIndex >= 0) {
-    items.splice(itemIndex, 1, { book, quantity });
+    items.splice(itemIndex, 1, { book, quantity: items[itemIndex].quantity + quantity });
   } else {
     items.push({ book, quantity });
   }
@@ -167,7 +171,7 @@ export const updateItemQuantity = async (itemId: string, quantity: number) => {
   const items = [...order.items];
   const itemIndex = items.findIndex(((item) => item.book.id === itemId));
 
-  updateBookQuantity(itemId, quantity * -1);
+  updateBookQuantity(itemId, items[itemIndex].quantity - quantity);
 
   items[itemIndex].quantity = quantity;
   saveOrder({ ...order, items }, orders);

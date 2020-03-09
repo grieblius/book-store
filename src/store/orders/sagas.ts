@@ -12,9 +12,9 @@ import * as api from './api';
 
 export function* getList() {
   try {
-    const response:OrdersModel.ListResponse = yield call(api.getList);
+    const orders:BookStoreModel.Order[] = yield call(api.getList);
 
-    yield put(actions.listReceive(response));
+    yield put(actions.listReceive({ orders }));
   } catch (error) {
     logError(error);
 

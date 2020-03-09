@@ -6,6 +6,7 @@ import { OrdersModel } from './model';
 import {
   listRequest,
   userListRequest,
+  userUpdateStatusRequest,
   updateStatusRequest,
   itemAddRequest,
   itemAddError,
@@ -30,6 +31,7 @@ const useOrdersState = (): [
     {
       listRequest,
       userListRequest,
+      userUpdateStatusRequest,
       updateStatusRequest,
       itemAddRequest,
       itemAddError,

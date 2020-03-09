@@ -7,7 +7,7 @@ import Badge from '@material-ui/core/Badge';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Container, { ContainerProps } from '@material-ui/core/Container';
+import Container from '@material-ui/core/Container';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -24,16 +24,11 @@ import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import People from '@material-ui/icons/People';
 import MenuBook from '@material-ui/icons/MenuBook';
 
+
 import Loader from '@components/common/Loader';
 import useUsersState from '@store/users/hooks';
 import useOrdersState from '@store/orders/hooks';
-
-export type PageTemplateModel = {
-  title: string;
-  isLoading?: boolean;
-  error?: string;
-  maxContainerWidth?: ContainerProps['maxWidth'];
-};
+import { PageTemplateModel } from './model';
 
 type Props = PageTemplateModel & {
   children: React.ReactNode;
@@ -56,7 +51,15 @@ const PageTemplate: React.FC<Props> = ({
 
   React.useEffect(() => {
     if (activeOrder) {
-      setOrderCount(activeOrder.items.length);
+      const newOrderCount = activeOrder.items.reduce((sum, item) => {
+        let newSum = sum;
+
+        newSum += item.quantity;
+
+        return newSum;
+      }, 0);
+
+      setOrderCount(newOrderCount);
     } else {
       setOrderCount(0);
     }

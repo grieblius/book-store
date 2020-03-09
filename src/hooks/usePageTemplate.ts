@@ -4,15 +4,21 @@ import { AppContext } from '@components/App';
 import { PageTemplateModel } from '@components/core/PageTemplate';
 
 const usePageTemplate = (props: PageTemplateModel) => {
-  const ctx = React.useContext(AppContext);
+  const appContext = React.useContext(AppContext);
+  const {
+    title,
+    isLoading,
+    error,
+    maxContainerWidth,
+  } = props;
 
   React.useEffect(() => {
-    ctx.setPageTemplateProps(props);
+    appContext?.setPageTemplateProps(props);
   }, [
-    props.title,
-    props.isLoading,
-    props.error,
-    props.maxContainerWidth,
+    title,
+    isLoading,
+    error,
+    maxContainerWidth,
   ]);
 };
 

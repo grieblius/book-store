@@ -71,10 +71,13 @@ const Form: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
+    const quantity = parseInt(values.quantity.toString(), 10);
+    const book = { ...values, quantity };
+
     if (id) {
-      editRequest({ book: values });
+      editRequest({ book });
     } else {
-      createRequest({ book: values });
+      createRequest({ book });
     }
   };
 

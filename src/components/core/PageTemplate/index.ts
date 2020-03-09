@@ -1,1 +1,2 @@
-export { default, PageTemplateModel } from './PageTemplate';
+export { default } from './PageTemplate';
+export { PageTemplateModel } from './model';
