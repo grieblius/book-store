@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
 
 import useOrdersState from '@store/orders/hooks';
 import usePageTemplate from '@src/hooks/usePageTemplate';
@@ -55,6 +56,9 @@ const Orders: React.FC = () => {
     quantity: number,
   ) => itemUpdateQuantityRequest({ itemId, quantity });
 
+  if (!activeOrder && !userOrders?.length) {
+    return <Alert severity="info">Order list is empty - start ordering!</Alert>;
+  }
 
   return (
     <>
