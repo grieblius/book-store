@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { AppContext } from '@components/App';
 
-const usePage = (pageTitle: string, isLoading: boolean, error: string) => {
+const usePageTemplate = (pageTitle: string, isLoading: boolean, error: string) => {
   const { setPageTitle, setIsLoading, setError } = React.useContext(AppContext);
 
   React.useEffect(() => {
@@ -18,4 +18,4 @@ const usePage = (pageTitle: string, isLoading: boolean, error: string) => {
   }, [error]);
 };
 
-export default usePage;
+export default usePageTemplate;

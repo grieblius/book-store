@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import useUsersState from '@store/users/hooks';
-import usePage from '@src/hooks/usePage';
+import usePageTemplate from '@src/hooks/usePageTemplate';
 
 const AdminUsers: React.FC = () => {
   const [
@@ -24,7 +24,11 @@ const AdminUsers: React.FC = () => {
   const isLoading = isUsersListLoading;
   const error = usersListError;
 
-  usePage('Users Management', isLoading, error);
+  usePageTemplate('Users Management', isLoading, error);
+
+  if (isUsersListLoading || !users?.length) {
+    return null;
+  }
 
   return (
     <TableContainer component={Paper}>

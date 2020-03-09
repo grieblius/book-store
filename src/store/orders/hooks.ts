@@ -8,6 +8,7 @@ import {
   userListRequest,
   updateStatusRequest,
   itemAddRequest,
+  itemAddError,
   itemRemoveRequest,
   itemUpdateQuantityRequest,
 } from './actions';
@@ -31,6 +32,7 @@ const useOrdersState = (): [
       userListRequest,
       updateStatusRequest,
       itemAddRequest,
+      itemAddError,
       itemRemoveRequest,
       itemUpdateQuantityRequest,
     },

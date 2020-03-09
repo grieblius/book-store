@@ -4,12 +4,12 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import useUsersState from '@store/users/hooks';
-import usePage from '@src/hooks/usePage';
+import usePageTemplate from '@src/hooks/usePageTemplate';
 
 const SignIn: React.FC = () => {
   const [
     { activeUser },
-    { isUsersLoginLoading, usersLoginError },
+    { isUsersInitLoading, isUsersLoginLoading, usersLoginError },
     { loginRequest },
   ] = useUsersState();
   const history = useHistory();
@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
     }
   }, [usersLoginError]);
 
-  usePage('Sign in', isUsersLoginLoading, usersLoginError);
+  usePageTemplate('Sign in', isUsersLoginLoading, usersLoginError);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -42,6 +42,10 @@ const SignIn: React.FC = () => {
   const handlePasswordChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => setPassword(event.target.value);
+
+  if (isUsersInitLoading) {
+    return null;
+  }
 
   return (
     <form onSubmit={handleSubmit}>

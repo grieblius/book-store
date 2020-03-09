@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 
 
 import useOrdersState from '@store/orders/hooks';
-import usePage from '@src/hooks/usePage';
+import usePageTemplate from '@src/hooks/usePageTemplate';
 
 const Orders: React.FC = () => {
   const [
@@ -25,7 +25,7 @@ const Orders: React.FC = () => {
   const isLoading = isOrdersListLoading;
   const error = ordersListError;
 
-  usePage('My orders', isLoading, error);
+  usePageTemplate('My orders', isLoading, error);
 
   return (
     <TableContainer component={Paper}>

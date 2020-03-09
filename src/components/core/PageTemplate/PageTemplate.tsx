@@ -42,7 +42,7 @@ const PageTemplate: React.FC<Props> = ({
   error,
 }: Props) => {
   const [{ activeUser }] = useUsersState();
-  const [{ userOrders }] = useOrdersState();
+  const [{ activeOrder }] = useOrdersState();
   const history = useHistory();
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement>(null);
@@ -50,16 +50,12 @@ const PageTemplate: React.FC<Props> = ({
   const [isDrawerShown, setIsDrawerShown] = React.useState(false);
 
   React.useEffect(() => {
-    if (userOrders.length) {
-      const newOrder = userOrders.find((order) => order.status === 'new');
-
-      if (newOrder) {
-        setOrderCount(newOrder.items.length);
-      }
+    if (activeOrder) {
+      setOrderCount(activeOrder.items.length);
     } else {
       setOrderCount(0);
     }
-  }, [userOrders]);
+  }, [activeOrder]);
 
   const isMenuOpen = Boolean(anchorEl);
 

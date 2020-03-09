@@ -24,11 +24,14 @@ export default (
       };
     }
     case Types.ORDERS.USER.LIST.RECEIVE: {
-      const { orders } = action.payload;
+      const { orders: userOrders } = action.payload;
+
+      const activeOrder = userOrders.find((order) => order.status === 'new');
 
       return {
         ...state,
-        userOrders: orders,
+        userOrders,
+        activeOrder,
       };
     }
     default: {

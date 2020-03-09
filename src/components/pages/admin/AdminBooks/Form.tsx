@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 import useBooksState from '@store/books/hooks';
-import usePage from '@src/hooks/usePage';
+import usePageTemplate from '@src/hooks/usePageTemplate';
 import { BookStoreModel } from '@src/model';
 
 type UrlParams = {
@@ -61,7 +61,7 @@ const Form: React.FC = () => {
   const titleSuffix = id ? 'Edit' : 'New';
   const buttonTitle = id ? 'Update' : 'Create';
 
-  usePage(`Books Management - ${titleSuffix}`, isLoading, error);
+  usePageTemplate(`Books Management - ${titleSuffix}`, isLoading, error);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -77,9 +77,8 @@ const Form: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { name, value } = event.target;
-    const newValues = { ...values };
+    const newValues = { ...values, [name]: value };
 
-    newValues[name] = value;
     setValues(newValues);
   };
 

@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Loader from '@components/common/Loader';
+import PageTemplate from '@components/core/PageTemplate';
 import AuthRoute from '@components/core/AuthRoute';
 import useUsersState from '@store/users/hooks';
-import PageTemplate from './core/PageTemplate';
+import useOrdersState from '@store/orders/hooks';
 
 const Home = React.lazy(() => import('@components/pages/Home'));
 const SignIn = React.lazy(() => import('@components/pages/SignIn'));
@@ -28,6 +29,8 @@ export const AppContext = React.createContext<AppContextModel>(null);
 
 const App: React.FC = () => {
   const [{ activeUser }, , { initRequest }] = useUsersState();
+  const [, , { userListRequest }] = useOrdersState();
+
   const [pageTitle, setPageTitle] = React.useState<string>(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string>(null);
@@ -37,6 +40,12 @@ const App: React.FC = () => {
       initRequest();
     }
   }, []);
+
+  React.useEffect(() => {
+    if (activeUser) {
+      userListRequest();
+    }
+  }, [activeUser]);
 
   const context = {
     pageTitle,

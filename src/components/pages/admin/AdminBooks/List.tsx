@@ -16,7 +16,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import useBooksState from '@store/books/hooks';
-import usePage from '@src/hooks/usePage';
+import usePageTemplate from '@src/hooks/usePageTemplate';
 
 const List: React.FC = () => {
   const [
@@ -35,11 +35,15 @@ const List: React.FC = () => {
   const isLoading = isBooksListLoading || isBooksDeleteLoading;
   const error = booksListError || booksDeleteError;
 
-  usePage('Books Management', isLoading, error);
+  usePageTemplate('Books Management', isLoading, error);
 
   const handleAdd = () => history.push('/admin/books/form');
   const handleEdit = (id: string) => () => history.push(`/admin/books/form/${id}`);
   const handleDelete = (id: string) => () => deleteRequest({ id });
+
+  if (isBooksListLoading) {
+    return null;
+  }
 
   return (
     <>
@@ -81,7 +85,7 @@ const List: React.FC = () => {
                 <TableCell align="right">{new Date(book.published_date).toLocaleDateString()}</TableCell>
                 <TableCell>
                   <Box width="25%">
-                    <img src={book.book_cover} alt={book.title} />
+                    <img src={book.book_cover} alt={book.title} height="100" />
                   </Box>
                 </TableCell>
                 <TableCell align="right">{book.quantity}</TableCell>
