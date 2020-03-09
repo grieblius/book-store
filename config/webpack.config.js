@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const dotenv = require('dotenv');
 
 const babelConfig = require('./babel-loader.config');
 
@@ -42,6 +43,17 @@ module.exports = (env, argv) => {
   const mode = argv.mode === 'development' ? 'development' : 'production';
   const envConfig = config[mode];
 
+  const envPath = `${rootPath}/.env.${mode}`;
+  const envFileParams = dotenv.config({ path: envPath }).parsed;
+
+  const envKeys = Object.keys(envFileParams).reduce((prev, next) => {
+    const prevModified = { ...prev };
+
+    prevModified[`process.env.${next}`] = JSON.stringify(envFileParams[next]);
+
+    return prevModified;
+  }, {});
+
   return merge(envConfig.webpack, {
     mode,
     output: {
@@ -76,6 +88,7 @@ module.exports = (env, argv) => {
         useTypescriptIncrementalApi: true,
       }),
       new HtmlWebpackPlugin({ template: 'index.html.ejs' }),
+      new webpack.DefinePlugin(envKeys),
     ],
   });
 };

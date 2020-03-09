@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import BookCard from '@components/common/Loader/BookCard';
+import BookCard from '@components/common/BookCard';
 import useBooksState from '@store/books/hooks';
 import useOrdersState from '@store/orders/hooks';
 import usePageTemplate from '@src/hooks/usePageTemplate';
