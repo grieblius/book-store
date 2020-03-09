@@ -15,7 +15,7 @@ const Home: React.FC = () => {
   const isLoading = isBooksListLoading || isOrdersItemAddLoading;
   const error = booksListError || ordersItemAddError;
 
-  usePageTemplate('Book list', isLoading, error);
+  usePageTemplate({ title: 'Book list', isLoading, error });
 
   React.useEffect(() => {
     listRequest();
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {!isBooksListLoading && books?.map((book) => (
-        <Grid key={book.id} item sm={6} xs={12}>
+        <Grid key={book.id} item md={4} sm={6} xs={12}>
           <BookCard book={book} onAddToCart={itemAddRequest} />
         </Grid>
       ))}

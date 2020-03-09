@@ -29,7 +29,15 @@ const SignIn: React.FC = () => {
     }
   }, [usersLoginError]);
 
-  usePageTemplate('Sign in', isUsersLoginLoading, usersLoginError);
+  const isLoading = isUsersLoginLoading;
+  const error = usersLoginError;
+
+  usePageTemplate({
+    title: 'Sign in',
+    isLoading,
+    error,
+    maxContainerWidth: 'xs',
+  });
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

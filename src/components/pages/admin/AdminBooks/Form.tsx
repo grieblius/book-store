@@ -61,7 +61,12 @@ const Form: React.FC = () => {
   const titleSuffix = id ? 'Edit' : 'New';
   const buttonTitle = id ? 'Update' : 'Create';
 
-  usePageTemplate(`Books Management - ${titleSuffix}`, isLoading, error);
+  usePageTemplate({
+    title: `Books Management - ${titleSuffix}`,
+    isLoading,
+    error,
+    maxContainerWidth: 'sm',
+  });
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

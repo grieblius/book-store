@@ -25,7 +25,7 @@ const Orders: React.FC = () => {
   const isLoading = isOrdersListLoading;
   const error = ordersListError;
 
-  usePageTemplate('My orders', isLoading, error);
+  usePageTemplate({ title: 'My orders', isLoading, error });
 
   return (
     <TableContainer component={Paper}>

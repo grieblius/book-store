@@ -24,7 +24,7 @@ const AdminUsers: React.FC = () => {
   const isLoading = isUsersListLoading;
   const error = usersListError;
 
-  usePageTemplate('Users Management', isLoading, error);
+  usePageTemplate({ title: 'Users Management', isLoading, error });
 
   if (isUsersListLoading || !users?.length) {
     return null;

@@ -1,21 +1,19 @@
 import * as React from 'react';
 
 import { AppContext } from '@components/App';
+import { PageTemplateModel } from '@components/core/PageTemplate';
 
-const usePageTemplate = (pageTitle: string, isLoading: boolean, error: string) => {
-  const { setPageTitle, setIsLoading, setError } = React.useContext(AppContext);
-
-  React.useEffect(() => {
-    setPageTitle(pageTitle);
-  }, [pageTitle]);
+const usePageTemplate = (props: PageTemplateModel) => {
+  const ctx = React.useContext(AppContext);
 
   React.useEffect(() => {
-    setIsLoading(isLoading);
-  }, [isLoading]);
-
-  React.useEffect(() => {
-    setError(error);
-  }, [error]);
+    ctx.setPageTemplateProps(props);
+  }, [
+    props.title,
+    props.isLoading,
+    props.error,
+    props.maxContainerWidth,
+  ]);
 };
 
 export default usePageTemplate;

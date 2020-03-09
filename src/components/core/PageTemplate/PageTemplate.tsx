@@ -7,7 +7,7 @@ import Badge from '@material-ui/core/Badge';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import Container, { ContainerProps } from '@material-ui/core/Container';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -28,11 +28,15 @@ import Loader from '@components/common/Loader';
 import useUsersState from '@store/users/hooks';
 import useOrdersState from '@store/orders/hooks';
 
-type Props = {
+export type PageTemplateModel = {
   title: string;
-  children: React.ReactNode;
   isLoading?: boolean;
   error?: string;
+  maxContainerWidth?: ContainerProps['maxWidth'];
+};
+
+type Props = PageTemplateModel & {
+  children: React.ReactNode;
 };
 
 const PageTemplate: React.FC<Props> = ({
@@ -40,6 +44,7 @@ const PageTemplate: React.FC<Props> = ({
   children,
   isLoading,
   error,
+  maxContainerWidth,
 }: Props) => {
   const [{ activeUser }] = useUsersState();
   const [{ activeOrder }] = useOrdersState();
@@ -184,7 +189,7 @@ const PageTemplate: React.FC<Props> = ({
         </Box>
       </Drawer>
 
-      <Container maxWidth="md">
+      <Container maxWidth={maxContainerWidth}>
         {error && (
         <Box my={4}>
           <Alert severity="error">{error}</Alert>
@@ -205,6 +210,7 @@ const PageTemplate: React.FC<Props> = ({
 
 PageTemplate.defaultProps = {
   isLoading: false,
+  maxContainerWidth: 'md',
 };
 
 export default PageTemplate;

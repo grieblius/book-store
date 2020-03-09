@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,7 +22,13 @@ const BookCard: React.FC<Props> = ({ book, onAddToCart }: Props) => {
   return (
     <Card>
       <CardActionArea>
-        <img src={book.book_cover} alt="" />
+        <CardMedia
+          component="img"
+          alt={book.title}
+          height="140"
+          image={book.book_cover}
+          title={book.title}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {book.title}
@@ -34,8 +41,6 @@ const BookCard: React.FC<Props> = ({ book, onAddToCart }: Props) => {
             </Grid>
             <Grid item>
               <Typography variant="body2" color="textSecondary" component="p">
-                Published:
-                {' '}
                 {new Date(book.published_date).toLocaleDateString()}
               </Typography>
             </Grid>

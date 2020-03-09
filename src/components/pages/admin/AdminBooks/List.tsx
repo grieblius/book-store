@@ -35,7 +35,8 @@ const List: React.FC = () => {
   const isLoading = isBooksListLoading || isBooksDeleteLoading;
   const error = booksListError || booksDeleteError;
 
-  usePageTemplate('Books Management', isLoading, error);
+
+  usePageTemplate({ title: 'Books Management', isLoading, error });
 
   const handleAdd = () => history.push('/admin/books/form');
   const handleEdit = (id: string) => () => history.push(`/admin/books/form/${id}`);

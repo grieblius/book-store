@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Loader from '@components/common/Loader';
-import PageTemplate from '@components/core/PageTemplate';
+import PageTemplate, { PageTemplateModel } from '@components/core/PageTemplate';
 import AuthRoute from '@components/core/AuthRoute';
 import useUsersState from '@store/users/hooks';
 import useOrdersState from '@store/orders/hooks';
@@ -16,13 +16,8 @@ const Orders = React.lazy(() => import('@components/pages/Orders'));
 const AdminUsers = React.lazy(() => import('@components/pages/admin/AdminUsers'));
 const AdminBooks = React.lazy(() => import('@components/pages/admin/AdminBooks'));
 
-type AppContextModel = {
-  pageTitle: string;
-  isLoading?: boolean;
-  error?: string;
-  setPageTitle: (pageTitle: string) => void;
-  setIsLoading: (isLoading: boolean) => void;
-  setError: (error: string) => void;
+type AppContextModel = PageTemplateModel & {
+  setPageTemplateProps: (props: PageTemplateModel) => void;
 };
 
 export const AppContext = React.createContext<AppContextModel>(null);
@@ -31,9 +26,13 @@ const App: React.FC = () => {
   const [{ activeUser }, , { initRequest }] = useUsersState();
   const [, , { userListRequest }] = useOrdersState();
 
-  const [pageTitle, setPageTitle] = React.useState<string>(null);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string>(null);
+
+  const [pageTemplateProps, setPageTemplateProps] = React.useState<PageTemplateModel>({
+    title: null,
+    isLoading: false,
+    error: null,
+    maxContainerWidth: 'md',
+  });
 
   React.useEffect(() => {
     if (!activeUser) {
@@ -47,20 +46,18 @@ const App: React.FC = () => {
     }
   }, [activeUser]);
 
-  const context = {
-    pageTitle,
-    isLoading,
-    error,
-    setPageTitle,
-    setIsLoading,
-    setError,
-  };
+  const context = { ...pageTemplateProps, setPageTemplateProps };
 
   return (
     <AppContext.Provider value={context}>
       <Router>
         <CssBaseline />
-        <PageTemplate title={pageTitle} isLoading={isLoading} error={error}>
+        <PageTemplate
+          title={pageTemplateProps.title}
+          isLoading={pageTemplateProps.isLoading}
+          error={pageTemplateProps.error}
+          maxContainerWidth={pageTemplateProps.maxContainerWidth}
+        >
           <Switch>
             <Route path="/login">
               <React.Suspense fallback={<Loader open />}>
