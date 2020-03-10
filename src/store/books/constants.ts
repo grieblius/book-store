@@ -1,0 +1,31 @@
+export const Types = {
+  BOOKS: {
+    LIST: {
+      REQUEST: 'BOOKS.LIST.REQUEST',
+      RECEIVE: 'BOOKS.LIST.RECEIVE',
+      ERROR: 'BOOKS.LIST.RECEIVE',
+    },
+    ITEM: {
+      REQUEST: 'BOOKS.ITEM.REQUEST',
+      RECEIVE: 'BOOKS.ITEM.RECEIVE',
+      ERROR: 'BOOKS.ITEM.ERROR',
+    },
+    CREATE: {
+      REQUEST: 'BOOKS.CREATE.REQUEST',
+      RECEIVE: 'BOOKS.CREATE.RECEIVE',
+      ERROR: 'BOOKS.CREATE.ERROR',
+    },
+    EDIT: {
+      REQUEST: 'BOOKS.EDIT.REQUEST',
+      RECEIVE: 'BOOKS.EDIT.RECEIVE',
+      ERROR: 'BOOKS.EDIT.ERROR',
+    },
+    DELETE: {
+      REQUEST: 'BOOKS.DELETE.REQUEST',
+      RECEIVE: 'BOOKS.DELETE.RECEIVE',
+      ERROR: 'BOOKS.DELETE.ERROR',
+    },
+  },
+} as const;
+
+export const DATA_KEY = 'books';
