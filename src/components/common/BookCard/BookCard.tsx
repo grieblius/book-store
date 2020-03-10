@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,19 +10,27 @@ import Grid from '@material-ui/core/Grid';
 
 import { BookStoreModel } from '@src/model';
 
+const useStyles = makeStyles(() => createStyles({
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+}));
+
 type Props = {
   book: BookStoreModel.Book;
-  noWrapper?: boolean;
   onAddToCart: (payload: BookStoreModel.OrderItem) => void;
 };
 
 
-const BookCard: React.FC<Props> = ({ book, noWrapper, onAddToCart }: Props) => {
+const BookCard: React.FC<Props> = ({ book, onAddToCart }: Props) => {
   const handleAddToCart = () => onAddToCart({ book, quantity: 1 });
-  const Wrapper = noWrapper ? React.Fragment : Card;
+  const classes = useStyles();
 
   return (
-    <Wrapper>
+    <Card className={classes.card}>
       <CardMedia
         component="img"
         alt={book.title}
@@ -64,7 +73,7 @@ const BookCard: React.FC<Props> = ({ book, noWrapper, onAddToCart }: Props) => {
           </Grid>
         </Grid>
       </CardActions>
-    </Wrapper>
+    </Card>
   );
 };
 export default BookCard;

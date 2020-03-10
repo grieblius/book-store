@@ -1,31 +1,71 @@
 {
-    "users": [
-        {
-            "id": "34235345344",
-            "name": "Keanu",
-            "surname": "Reeves",
-            "username": "kearee",
-            "password": "UGFzc3dvcmQx",
-            "role": "client"
-        },
-        {
-            "id": "430593840539",
-            "name": "Monica",
-            "surname": "Belucci",
-            "username": "monbel",
-            "password": "UGFzc3dvcmQx",
-            "role": "admin"
-        }
-    ],
-    "books": [
-        {
-            "id": "845093845039",
-            "title": "The Ultimate Hitchhiker’s Guide To The Galaxy",
-            "author": "Douglas Adams",
-            "published_date": "2012-01-12",
-            "book_cover": "https://placekeanu.com/200/150",
-            "quantity": 3
-        }
-    ],
-    "orders": []
+  "users": [
+    {
+      "id": "34235345344",
+      "name": "Keanu",
+      "surname": "Reeves",
+      "username": "kearee",
+      "password": "UGFzc3dvcmQx",
+      "role": "client"
+    },
+    {
+      "id": "430593840539",
+      "name": "Monica",
+      "surname": "Belucci",
+      "username": "monbel",
+      "password": "UGFzc3dvcmQx",
+      "role": "admin"
+    }
+  ],
+  "books": [
+    {
+      "id": "845093845039",
+      "title": "The Ultimate Hitchhiker’s Guide To The Galaxy",
+      "author": "Douglas Adams",
+      "published_date": "2012-01-12",
+      "book_cover": "https://placekeanu.com/200/150",
+      "quantity": 28
+    },
+    {
+      "id": "1583797375876",
+      "title": "Cat’s Cradle",
+      "author": "Kurt Vonnegut",
+      "published_date": "1963-10-04",
+      "book_cover": "https://placekitten.com/400/400",
+      "quantity": 5
+    },
+    {
+      "id": "1583797664780",
+      "title": "Our Dumb World",
+      "author": "The Onion",
+      "published_date": "2008-10-27",
+      "book_cover": "https://baconmockup.com/400/400/",
+      "quantity": 3
+    },
+    {
+      "id": "1583797891261",
+      "title": "If You Ask Me (And Of Course You Won’t)",
+      "author": "Betty White",
+      "published_date": "2012-02-07",
+      "book_cover": "https://placebear.com/400/400",
+      "quantity": 1
+    },
+    {
+      "id": "1583798078370",
+      "title": "Things My Girlfriend and I Have Argued About",
+      "author": "Mil Millington",
+      "published_date": "2003-01-14",
+      "book_cover": "http://www.placecage.com/400/400",
+      "quantity": 25
+    },
+    {
+      "id": "1583799295434",
+      "title": "Live Right and Find Happiness (Although Beer is Much Faster)",
+      "author": "Dave Barry",
+      "published_date": "0216-09-06",
+      "book_cover": "https://www.stevensegallery.com/400/400",
+      "quantity": 9
+    }
+  ],
+  "orders": []
 }
