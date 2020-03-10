@@ -18,8 +18,6 @@ export default (
     case Types.ORDERS.LIST.RECEIVE: {
       const { orders } = action.payload;
 
-      console.log(orders);
-
       return {
         ...state,
         orders,
